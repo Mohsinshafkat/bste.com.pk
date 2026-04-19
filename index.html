@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSTE | National Council for Technical and Scientific Education</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1e7e34;
+            --secondary: #28a745;
+            --accent: #ffc107;
+            --dark: #0a1f0d;
+            --light: #f1f8f3;
+            --white: #ffffff;
+            --gray-text: #6c757d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: var(--light);
+            color: #333;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Roboto Slab', serif; color: var(--dark); }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .container { width: 90%; max-width: 1200px; margin: auto; }
+
+        /* --- Header --- */
+        header {
+            background: var(--white);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-main { padding: 15px 0; text-align: center; }
+        .header-main img { width: 380px; height: auto; image-rendering: crisp-edges; }
+
+        nav { background: var(--dark); padding: 0; }
+        nav ul { display: flex; justify-content: center; list-style: none; }
+        nav ul li a {
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            padding: 15px 25px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        nav ul li a:hover { background: var(--primary); color: white; }
+
+        /* --- News Ticker --- */
+        .news-ticker { background: var(--accent); padding: 10px 0; font-weight: 700; font-size: 14px; color: var(--dark); }
+
+        /* --- Hero Section with Blur Background --- */
+        .hero {
+            position: relative;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1470');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px) brightness(0.35); /* Professional Blur & Dark Overlay */
+            transform: scale(1.1);
+            z-index: 1;
+        }
+
+        .hero-content { position: relative; z-index: 2; }
+        .hero h1 { color: white; font-size: clamp(28px, 6vw, 56px); margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .hero p { font-size: 20px; max-width: 800px; margin: auto; margin-bottom: 30px; }
+        .btn-cta { background: var(--secondary); color: white; padding: 15px 35px; border-radius: 5px; font-weight: 700; text-transform: uppercase; display: inline-block; }
+
+        /* --- Stats Section --- */
+        .stats-wrap { 
+            background: var(--white); padding: 50px 0; margin-top: -60px; 
+            position: relative; z-index: 5; border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); text-align: center; }
+        .stat-item h3 { font-size: 40px; color: var(--primary); }
+        .stat-item p { text-transform: uppercase; font-weight: 600; color: var(--gray-text); font-size: 13px; }
+
+        /* --- Content Sections --- */
+        section { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 36px; position: relative; padding-bottom: 15px; text-transform: uppercase; }
+        .section-title h2::after { content: ''; width: 80px; height: 4px; background: var(--primary); position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
+
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .info-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+        .info-card:hover { transform: translateY(-5px); }
+        .info-card img { width: 100%; height: 200px; object-fit: cover; }
+        .info-card-body { padding: 25px; }
+
+        /* --- Blog/News Section --- */
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .blog-item { background: #fff; border-radius: 8px; padding: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .blog-meta { font-size: 12px; color: var(--gray-text); text-transform: uppercase; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; display: block; }
+
+        /* --- Mission Section --- */
+        .mission-wrap { background: var(--dark); color: #ccc; padding: 100px 0; }
+        .mission-text-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 50px; line-height: 2; font-style: italic; font-size: 17px; }
+
+        /* --- Footer (Restored) --- */
+        footer { background: #081209; color: #bbb; padding: 80px 0 30px; font-size: 14px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .footer-grid h4 { color: white; margin-bottom: 20px; text-transform: uppercase; }
+        .footer-grid ul { list-style: none; }
+        .footer-grid ul li { margin-bottom: 10px; }
+        .footer-bottom { border-top: 1px solid #1a2e1c; padding-top: 30px; text-align: center; margin-top: 50px; }
+
+        /* --- Page Control --- */
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-main">
+            <div class="container"><img src="image_3.png" alt="BSTE Logo"></div>
+        </div>
+        <nav>
+            <div class="container">
+                <ul>
+                    <li><a href="#" onclick="showSection('home')">Home Portal</a></li>
+                    <li><a href="#courses" onclick="showSection('home')">Programs</a></li>
+                    <li><a href="Verification.html">Verification</a></li>
+                    <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="news-ticker">
+        <marquee>⚠️ NOTICE: The admission portal for Session 2026-27 is now active. Complete your verification early.</marquee>
+    </div>
+
+    <main id="home" class="page-section active">
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="container hero-content">
+                <h1>Governing, Standardizing, & Certifying <br>Scientific Education</h1>
+                <p>Accrediting industrial and medical domains to forge the next generation of Pakistan's skilled workforce.</p>
+                <a href="#courses" class="btn-cta">Explore Programs</a>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="stats-wrap">
+                <div class="stats-grid">
+                    <div class="stat-item"><h3>25k+</h3><p>Graduates Certified</p></div>
+                    <div class="stat-item"><h3>150+</h3><p>Affiliated Institutes</p></div>
+                    <div class="stat-item"><h3 style="color: var(--accent);">Gold</h3><p>Academic Excellence</p></div>
+                    <div class="stat-item"><h3>45+</h3><p>Accredited Programs</p></div>
+                </div>
+            </div>
+        </div>
+
+        <section id="courses" class="container">
+            <div class="section-title">
+                <h2>Academic Departments</h2>
+                <p>Standardized curriculum compliant with global industry standards.</p>
+            </div>
+            <div class="grid-3">
+                <div class="info-card">
+                    <img src="https://images.pexels.com/photos/190574/pexels-photo-190574.jpeg?auto=compress" alt="Mechanical">
+                    <div class="info-card-body">
+                        <h3>Mechanical Technology</h3>
+                        <p>Pump maintenance, utility operations, and HVAC systems certification.</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <img src="https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress" alt="Electrical">
+                    <div class="info-card-body">
+                        <h3>Electrical Systems</h3>
+                        <p>Industrial Wiring, PLC Automation, and Power Distribution protocols.</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <img src="https://images.pexels.com/photos/3825539/pexels-photo-3825539.jpeg?auto=compress" alt="Medical">
+                    <div class="info-card-body">
+                        <h3>Healthcare Sciences</h3>
+                        <p>Laboratory Technology and Clinical Equipment accreditation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="section-title"><h2>Latest News & Updates</h2></div>
+            <div class="blog-grid">
+                <div class="blog-item">
+                    <span class="blog-meta">Notice | April 15, 2026</span>
+                    <h4>Affiliation Renewals Open</h4>
+                    <p>Institutes must submit audit reports by May 15, 2026.</p>
+                </div>
+                <div class="blog-item">
+                    <span class="blog-meta">Policy | March 30, 2026</span>
+                    <h4>Medical Lab Curriculum Update</h4>
+                    <p>New 6-month clinical residency program is now mandatory.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mission-wrap">
+            <div class="container">
+                <h2 style="color: var(--accent); text-align: center; margin-bottom: 40px;">Board Vision</h2>
+                <div class="mission-text-grid">
+                    <div><p>"To elevate technical education standards through rigorous accreditation, ensuring youth are industry-ready."</p></div>
+                    <div><p>"Creating a transparent ecosystem where every certification signifies true professional competence."</p></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <section id="verify" class="page-section" style="padding: 100px 0; background: #f0f2f0;">
+        <div class="container">
+            <div class="verify-card">
+                <h2 style="text-align: center; margin-bottom: 25px; color: var(--primary);">Search Digital Records</h2>
+                <form onsubmit="event.preventDefault(); alert('Record not found.');">
+                    <div style="margin-bottom: 20px;">
+                        <label>Registration Number</label>
+                        <input type="text" placeholder="ABC-1234" style="width:100%; padding:12px; border-radius:5px; border:1px solid #ddd;" required>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label>Student CNIC</label>
+                        <input type="text" placeholder="XXXXX-XXXXXXX-X" style="width:100%; padding:12px; border-radius:5px; border:1px solid #ddd;" required>
+                    </div>
+                    <button type="submit" style="width:100%; background:var(--primary); color:white; border:none; padding:15px; font-weight:700; border-radius:5px; cursor:pointer;">VERIFY NOW</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="page-section" style="text-align:center; padding:100px 0;">
+        <div class="container">
+            <h1>Contact BSTE</h1>
+            <p>Office: Pakistan | Email: support@bste.edu.pk</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4>Governance</h4>
+                    <ul><li>Affiliation Rules</li><li>Examination Bye-laws</li></ul>
+                </div>
+                <div>
+                    <h4>Students</h4>
+                    <ul><li>Download Syllabus</li><li>Apply for Duplicate</li></ul>
+                </div>
+                <div>
+                    <h4>Contact</h4>
+                    <p>Main Campus, Pakistan</p>
+                    <p>Email: info@bste.com.pk</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Board of Science & Technology. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+    </script>
+
+</body>
+</html>
