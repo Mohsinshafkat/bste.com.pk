@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSTE | Official Verification Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1e7e34;
+            --dark: #0a1f0d;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Source Sans Pro', sans-serif; background: #f4f7f4; overflow-x: hidden; }
+
+        /* --- SEARCH INTERFACE --- */
+        #search-interface { display: block; padding: 40px 15px; }
+        header { background: white; padding: 15px 0; text-align: center; border-bottom: 1px solid #ddd; width: 100%; }
+        header img { width: 150px; max-width: 80%; } 
+        
+        .search-container { 
+            max-width: 1100px; 
+            margin: 20px auto; 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 30px; 
+            align-items: center; 
+        }
+
+        @media (max-width: 768px) {
+            .search-container { grid-template-columns: 1fr; text-align: center; }
+        }
+
+        .search-info h1 { font-family: 'Roboto Slab', serif; color: var(--dark); font-size: 32px; margin-bottom: 20px; }
+        .search-box { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 6px solid var(--primary); }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
+        .btn-verify { width: 100%; background: var(--primary); color: white; padding: 15px; border: none; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 4px; }
+
+        /* --- RESULT VIEW --- */
+        #result-view { display: none; background: #525659; padding: 40px 0; min-height: 100vh; }
+        
+        .a4-document {
+            width: 210mm; min-height: 297mm; margin: auto; background: white;
+            position: relative; overflow: hidden; display: flex; flex-direction: column;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 210mm) {
+            #result-view { padding: 10px 0; }
+            .a4-document { width: 98%; min-height: auto; padding-bottom: 20px; }
+            .content-layer { padding: 10mm 5mm !important; }
+            .main-info { flex-direction: column-reverse; align-items: center; }
+            .photo-box { width: 120px; height: 140px; margin-bottom: 15px; }
+            .cert-header h1 { font-size: 18px !important; }
+        }
+
+        .background-overlay {
+            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            pointer-events: none; z-index: 1; transform: rotate(-30deg);
+            display: flex; flex-wrap: wrap; opacity: 0.05;
+            font-size: 10px; font-weight: 900; line-height: 1.2; color: var(--primary);
+            overflow: hidden;
+        }
+
+        .center-logo {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 300px; opacity: 0.08; z-index: 2; pointer-events: none;
+        }
+
+        .content-layer { position: relative; z-index: 3; padding: 15mm; flex: 1; display: flex; flex-direction: column; }
+
+        .cert-header { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
+        .cert-header img { width: 85px; margin-bottom: 8px; }
+        .cert-header h1 { font-family: 'Roboto Slab', serif; font-size: 22px; color: var(--dark); }
+
+        .result-title { 
+            background: var(--primary); color: var(--white); 
+            padding: 10px; text-align: center; font-weight: 700; 
+            margin-bottom: 20px; text-transform: uppercase; font-size: 14px; border-radius: 4px;
+        }
+
+        .main-info { display: flex; gap: 30px; margin-bottom: 25px; }
+        .text-details { flex: 1; line-height: 1.7; font-size: 15px; text-align: justify; }
+        .photo-box { width: 135px; height: 165px; border: 2px solid var(--primary); background: white; padding: 3px; flex-shrink: 0; }
+        .photo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .data-table td { padding: 8px; border: 1px solid #ddd; font-size: 14px; }
+        .f-name { font-weight: 700; background: rgba(230, 245, 230, 0.8); width: 150px; }
+
+        .marks-table-container { width: 100%; overflow-x: auto; }
+        .marks-table { width: 100%; border-collapse: collapse; margin-top: 25px; text-align: center; min-width: 450px; }
+        .marks-table th, .marks-table td { border: 1px solid #ccc; padding: 10px; font-size: 14px; }
+        .marks-table th { background: var(--primary); color: var(--white); }
+
+        /* --- FOOTER: QR LEFT, SIG RIGHT --- */
+        .cert-footer { 
+            margin-top: auto; 
+            padding-top: 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-end; 
+            width: 100%;
+        }
+        
+        .qr-box { text-align: left; } /* Forced Left */
+        .qr-box img { width: 100px; }
+        .qr-text { font-size: 10px; font-weight: 800; margin-top: 5px; text-align: center; display: block; }
+
+        .sig-area { text-align: center; width: 200px; } /* Forced Right */
+        .sig-line { border-top: 2px solid #333; margin-bottom: 5px; }
+        .sig-text { font-weight: 800; color: var(--dark); font-size: 12px; text-transform: uppercase; }
+
+        .system-note { 
+            width: 100%; text-align: center; padding-top: 20px; 
+            font-size: 11px; color: #666; font-style: italic; 
+        }
+
+        .print-btn-container { text-align: center; padding: 20px; }
+        .btn-print { background: var(--dark); color: white; padding: 12px 25px; border: none; cursor: pointer; font-weight: 700; border-radius: 4px; margin: 5px; }
+
+        @media print {
+            body { background: white; }
+            #search-interface, .print-btn-container { display: none !important; }
+            #result-view { display: block; padding: 0; background: white; }
+            .a4-document { width: 100%; margin: 0; box-shadow: none; }
+            @page { size: A4 portrait; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="search-interface">
+        <header><img src="IMG_20260420_025633.png" alt="Logo"></header>
+        <div class="search-container">
+            <div class="search-info">
+                <h1>Online Verification Portal</h1>
+                <p>Verify your academic documents and transcripts online instantly through our secure national database.</p>
+            </div>
+            <div class="search-box">
+                <h2>Student Search</h2>
+                <form id="verifyForm">
+                    <div class="form-group">
+                        <label>Roll Number</label>
+                        <input type="text" id="rollInput" placeholder="Enter Roll Number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>CNIC Number</label>
+                        <input type="text" id="cnicInput" placeholder="42101-XXXXXXX-X" required>
+                    </div>
+                    <button type="submit" class="btn-verify">Search Record</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="result-view">
+        <div class="a4-document">
+            <div class="background-overlay" id="bg-text"></div>
+            <img src="IMG_20260420_025633.png" class="center-logo">
+
+            <div class="content-layer">
+                <div class="cert-header">
+                    <img src="IMG_20260420_025633.png">
+                    <h1>BOARD OF SCIENCE & TECHNOLOGY EDUCATION</h1>
+                    <p>National Council for Technical and Scientific Education</p>
+                </div>
+
+                <div class="result-title">Approved Result Details</div>
+
+                <div class="main-info">
+                    <div class="text-details">
+                        <p>It is to verify that the Diploma/Certificate issued in favor of <b>Mr./Miss <span id="out-name">---</span></b> S/D/W/O <b><span id="out-father">---</span></b>, with Roll No: <b><span id="out-roll">---</span></b> in the trade of <b><span id="out-course">---</span></b> is found genuine according to our records.</p>
+                        
+                        <table class="data-table">
+                            <tr><td class="f-name">Registration No:</td><td id="out-reg">---</td></tr>
+                            <tr><td class="f-name">CNIC Number:</td><td id="out-cnic">---</td></tr>
+                            <tr><td class="f-name">Status:</td><td style="color: green; font-weight: bold;">VERIFIED</td></tr>
+                        </table>
+                    </div>
+                    <div class="photo-box">
+                        <img id="out-img" src="">
+                    </div>
+                </div>
+
+                <div class="result-title">Marks Card Details</div>
+                <div class="marks-table-container">
+                    <table class="marks-table">
+                        <thead>
+                            <tr><th>Total Marks</th><th>Obtained</th><th>Percentage</th><th>Grade</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td id="out-total">---</td><td id="out-obt">---</td><td id="out-per">---</td><td id="out-grade">---</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="cert-footer">
+                    <div class="qr-box">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.bste.com.pk" alt="QR">
+                        <span class="qr-text">SCAN TO VERIFY</span>
+                    </div>
+                    
+                    <div class="sig-area">
+                        <div class="sig-line"></div>
+                        <div class="sig-text">Controller of Examinations</div>
+                    </div>
+                </div>
+                
+                <div class="system-note">
+                    This is a system-generated document and does not require a physical signature.
+                </div>
+            </div>
+        </div>
+        
+        <div class="print-btn-container">
+            <button class="btn-print" onclick="window.print()">Download / Print PDF</button>
+            <button class="btn-print" style="background:#666;" onclick="location.reload()">New Search</button>
+        </div>
+    </div>
+
+    <script>
+        const studentDB = [
+            {
+                roll: "9006050",
+                cnic: "42101-1234567-1",
+                name: "MALIK AMAN",
+                father: "ZAMEER GUL",
+                reg: "BSTE/TEC/A261-9741",
+                course: "DIPLOMA OF ASSOCIATE ENGINEERING (CIVIL)",
+                total: "3450",
+                obt: "2599",
+                per: "75.33%",
+                grade: "A",
+                image: "Students/9006050.jpg"
+            }
+        ];
+
+        const bgContainer = document.getElementById('bg-text');
+        const rawText = "BOARDOFSCIENCEANDTECHNOLOGYEDUCATION ";
+        let bgContent = "";
+        for (let i = 0; i < 1000; i++) { bgContent += rawText; }
+        bgContainer.innerText = bgContent;
+
+        document.getElementById('verifyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const r = document.getElementById('rollInput').value.trim();
+            const c = document.getElementById('cnicInput').value.trim();
+            const student = studentDB.find(s => s.roll === r && s.cnic === c);
+
+            if (student) {
+                document.getElementById('search-interface').style.display = 'none';
+                document.getElementById('result-view').style.display = 'block';
+                document.getElementById('out-name').innerText = student.name;
+                document.getElementById('out-father').innerText = student.father;
+                document.getElementById('out-roll').innerText = student.roll;
+                document.getElementById('out-cnic').innerText = student.cnic;
+                document.getElementById('out-reg').innerText = student.reg;
+                document.getElementById('out-course').innerText = student.course;
+                document.getElementById('out-total').innerText = student.total;
+                document.getElementById('out-obt').innerText = student.obt;
+                document.getElementById('out-per').innerText = student.per;
+                document.getElementById('out-grade').innerText = student.grade;
+                document.getElementById('out-img').src = student.image;
+                window.scrollTo(0, 0);
+            } else {
+                alert('No record found!');
+            }
+        });
+    </script>
+</body>
+</html>
