@@ -45,18 +45,19 @@
         #result-view { display: none; background: #525659; padding: 40px 0; min-height: 100vh; }
         
         .a4-document {
-            width: 210mm; min-height: 297mm; margin: auto; background: white;
+            width: 215.9mm; /* Letter Width */
+            min-height: 279.4mm; /* Letter Height */
+            margin: auto; background: white;
             position: relative; overflow: hidden; display: flex; flex-direction: column;
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            -webkit-print-color-adjust: exact !important; /* Force colors in print */
+            print-color-adjust: exact !important;
         }
 
-        @media (max-width: 210mm) {
+        @media (max-width: 215.9mm) {
             #result-view { padding: 10px 0; }
             .a4-document { width: 98%; min-height: auto; padding-bottom: 20px; }
             .content-layer { padding: 10mm 5mm !important; }
-            .main-info { flex-direction: column-reverse; align-items: center; }
-            .photo-box { width: 120px; height: 140px; margin-bottom: 15px; }
-            .cert-header h1 { font-size: 18px !important; }
         }
 
         .background-overlay {
@@ -78,10 +79,13 @@
         .cert-header img { width: 85px; margin-bottom: 8px; }
         .cert-header h1 { font-family: 'Roboto Slab', serif; font-size: 22px; color: var(--dark); }
 
+        /* --- GREEN BACKGROUND SHAPES FIXED FOR PRINT --- */
         .result-title { 
-            background: var(--primary); color: var(--white); 
+            background-color: var(--primary) !important; 
+            color: var(--white) !important; 
             padding: 10px; text-align: center; font-weight: 700; 
             margin-bottom: 20px; text-transform: uppercase; font-size: 14px; border-radius: 4px;
+            -webkit-print-color-adjust: exact;
         }
 
         .main-info { display: flex; gap: 30px; margin-bottom: 25px; }
@@ -91,12 +95,21 @@
 
         .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .data-table td { padding: 8px; border: 1px solid #ddd; font-size: 14px; }
-        .f-name { font-weight: 700; background: rgba(230, 245, 230, 0.8); width: 150px; }
+        .f-name { 
+            font-weight: 700; 
+            background-color: rgba(230, 245, 230, 0.9) !important; 
+            width: 150px; 
+            -webkit-print-color-adjust: exact;
+        }
 
         .marks-table-container { width: 100%; overflow-x: auto; }
         .marks-table { width: 100%; border-collapse: collapse; margin-top: 25px; text-align: center; min-width: 450px; }
         .marks-table th, .marks-table td { border: 1px solid #ccc; padding: 10px; font-size: 14px; }
-        .marks-table th { background: var(--primary); color: var(--white); }
+        .marks-table th { 
+            background-color: var(--primary) !important; 
+            color: var(--white) !important; 
+            -webkit-print-color-adjust: exact;
+        }
 
         /* --- FOOTER: QR LEFT, SIG RIGHT --- */
         .cert-footer { 
@@ -108,11 +121,11 @@
             width: 100%;
         }
         
-        .qr-box { text-align: left; } /* Forced Left */
+        .qr-box { text-align: left; }
         .qr-box img { width: 100px; }
         .qr-text { font-size: 10px; font-weight: 800; margin-top: 5px; text-align: center; display: block; }
 
-        .sig-area { text-align: center; width: 200px; } /* Forced Right */
+        .sig-area { text-align: center; width: 200px; }
         .sig-line { border-top: 2px solid #333; margin-bottom: 5px; }
         .sig-text { font-weight: 800; color: var(--dark); font-size: 12px; text-transform: uppercase; }
 
@@ -128,8 +141,12 @@
             body { background: white; }
             #search-interface, .print-btn-container { display: none !important; }
             #result-view { display: block; padding: 0; background: white; }
-            .a4-document { width: 100%; margin: 0; box-shadow: none; }
-            @page { size: A4 portrait; margin: 0; }
+            .a4-document { 
+                width: 100%; margin: 0; box-shadow: none; 
+                -webkit-print-color-adjust: exact !important; 
+                print-color-adjust: exact !important;
+            }
+            @page { size: letter portrait; margin: 0; }
         }
     </style>
 </head>
@@ -237,7 +254,7 @@
                 obt: "2599",
                 per: "75.33%",
                 grade: "A",
-                image: "Students/9006050.jpg"
+                image: "Students/9006050.jpeg"
             },
             {
                 roll: "9006051",
