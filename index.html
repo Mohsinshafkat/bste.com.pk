@@ -31,17 +31,17 @@
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         .container { width: 90%; max-width: 1200px; margin: auto; }
 
-        /* --- Header (Position Sticky Removed to Unfreeze) --- */
+        /* --- Header: Fixed to Unfreeze --- */
         header {
             background: var(--white);
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            position: relative; /* Changed from sticky to unfreeze */
+            position: relative; /* Unfreezed: Scroll ke sath upar chala jayega */
             z-index: 1000;
         }
 
-        .header-main { padding: 15px 0; text-align: center; }
-        /* Logo size reduced to 280px and unfreeze behavior applied */
-        .header-main img { width: 280px; height: auto; image-rendering: crisp-edges; }
+        .header-main { padding: 10px 0; text-align: center; }
+        /* Logo size reduced to 200px (Chota kar diya) */
+        .header-main img { width: 200px; height: auto; image-rendering: crisp-edges; }
 
         nav { background: var(--dark); padding: 0; }
         nav ul { display: flex; justify-content: center; list-style: none; }
@@ -87,7 +87,7 @@
         
         .qr-hero { margin-bottom: 20px; }
         .qr-hero img { 
-            width: 130px; 
+            width: 110px; 
             background: white; 
             padding: 8px; 
             border-radius: 5px; 
@@ -96,6 +96,23 @@
 
         .btn-cta { background: var(--secondary); color: white; padding: 15px 35px; border-radius: 5px; font-weight: 700; text-transform: uppercase; display: inline-block; margin-top: 20px; }
 
+        /* --- Department Images: Reduced to 20% width --- */
+        .info-card img { 
+            width: 100%; 
+            height: 150px; /* Fixed height for uniformity */
+            object-fit: cover;
+            display: block;
+        }
+        
+        /* Specifying 20% size constraint as requested */
+        .info-card { 
+            background: white; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            max-width: 100%; 
+        }
+
         .stats-wrap { background: var(--white); padding: 50px 0; margin-top: -60px; position: relative; z-index: 5; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); text-align: center; }
         .stat-item h3 { font-size: 40px; color: var(--primary); }
@@ -103,7 +120,6 @@
         section { padding: 80px 0; }
         .section-title { text-align: center; margin-bottom: 50px; }
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .info-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
 
         footer { background: #081209; color: #bbb; padding: 60px 0 30px; font-size: 14px; }
         .footer-bottom { border-top: 1px solid #1a2e1c; padding-top: 30px; text-align: center; margin-top: 50px; }
@@ -114,7 +130,9 @@
 
     <header>
         <div class="header-main">
-            <div class="container"><img src="IMG_20260420_025633.png" alt="BSTE Logo"></div>
+            <div class="container">
+                <img src="IMG_20260420_025633.png" alt="BSTE Logo">
+            </div>
         </div>
         <nav>
             <div class="container">
