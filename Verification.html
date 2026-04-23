@@ -12,14 +12,18 @@
             --dark: #0a1f0d;
             --white: #ffffff;
             --accent: #ffc107;
+            --bg-gray: #f4f7f4;
+            --a4-gray: #525659;
+            --a4-width: 215.9mm;
+            --a4-height: 279.4mm;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Source Sans Pro', sans-serif; background: #f4f7f4; overflow-x: hidden; }
+        body { font-family: 'Source Sans Pro', sans-serif; background: var(--bg-gray); overflow-x: hidden; width: 100%; }
 
         .brand-header { 
             text-align: center; 
-            padding: 30px 0; 
+            padding: 30px 15px; 
             background: white; 
             border-bottom: 4px solid var(--primary);
             margin-bottom: 40px;
@@ -32,7 +36,7 @@
             letter-spacing: 2px;
         }
         
-        #search-interface { display: block; padding: 60px 15px; }
+        #search-interface { display: block; padding: 40px 15px; }
         .search-container { 
             max-width: 900px; 
             margin: auto; 
@@ -44,15 +48,15 @@
 
         @media (max-width: 768px) {
             .search-container { grid-template-columns: 1fr; text-align: center; }
+            .brand-name { font-size: 20px; }
         }
 
-        .search-info h1 { font-family: 'Roboto Slab', serif; color: var(--dark); font-size: 32px; margin-bottom: 20px; }
-        .search-box { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 8px solid var(--primary); }
+        .search-info h1 { font-family: 'Roboto Slab', serif; color: var(--dark); font-size: 32px; margin-bottom: 15px; }
+        .search-info p { color: #666; line-height: 1.6; }
+        .search-box { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 8px solid var(--primary); }
         
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--dark); }
-        
-        /* Advanced Input Styles */
         .form-group input, .form-group select { 
             width: 100%; 
             padding: 14px; 
@@ -60,14 +64,10 @@
             border-radius: 6px; 
             font-size: 16px; 
             outline: none;
-            transition: all 0.3s ease;
+            transition: 0.3s;
             background: #fafafa;
         }
-        .form-group input:focus, .form-group select:focus { 
-            border-color: var(--primary); 
-            background: white;
-            box-shadow: 0 0 8px rgba(30, 126, 52, 0.2);
-        }
+        .form-group input:focus { border-color: var(--primary); background: white; }
 
         .btn-verify { 
             width: 100%; 
@@ -79,33 +79,67 @@
             text-transform: uppercase; 
             cursor: pointer; 
             border-radius: 4px; 
-            transition: 0.3s; 
         }
-        .btn-verify:hover { background: var(--dark); transform: translateY(-2px); }
 
-        /* --- RESULT VIEW STYLES (Keeping your original structure) --- */
-        #result-view { display: none; background: #525659; padding: 40px 0; min-height: 100vh; }
-        .a4-document { width: 215.9mm; min-height: 279.4mm; margin: auto; background: white; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(0,0,0,0.6); }
-        .background-overlay { position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; pointer-events: none; z-index: 1; transform: rotate(-30deg); display: flex; flex-wrap: wrap; opacity: 0.06; font-size: 11px; font-weight: 900; line-height: 1.5; color: var(--primary); overflow: hidden; text-align: justify; }
-        .content-layer { position: relative; z-index: 3; padding: 20mm; flex: 1; display: flex; flex-direction: column; }
-        .cert-header { text-align: center; border-bottom: 4px solid var(--primary); padding-bottom: 20px; margin-bottom: 30px; }
-        .cert-header h1 { font-family: 'Roboto Slab', serif; font-size: 26px; color: var(--dark); }
-        .result-title { background-color: var(--primary) !important; color: var(--white) !important; padding: 12px; text-align: center; font-weight: 700; margin-bottom: 25px; text-transform: uppercase; border-radius: 2px; }
-        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .data-table td { padding: 12px; border: 1px solid #ddd; }
-        .f-name { font-weight: 700; background-color: #f9f9f9; width: 200px; }
-        .marks-table { width: 100%; border-collapse: collapse; margin-top: 30px; text-align: center; }
-        .marks-table th, .marks-table td { border: 1px solid #ddd; padding: 14px; }
-        .cert-footer { margin-top: auto; padding-top: 60px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .qr-box img { width: 110px; }
-        .sig-line { border-top: 2px solid #444; width: 220px; margin-bottom: 8px; }
+        /* --- RESULT VIEW --- */
+        #result-view { display: none; background: var(--a4-gray); padding: 40px 10px; min-height: 100vh; }
+        .a4-document-container { max-width: var(--a4-width); margin: auto; position: relative; }
+        .a4-document { 
+            width: 100%; 
+            min-height: var(--a4-height); 
+            background: white; 
+            position: relative; 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.6); 
+            padding: 15mm;
+        }
+        
+        /* Watermark */
+        .background-overlay { 
+            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; 
+            pointer-events: none; z-index: 1; transform: rotate(-30deg); 
+            opacity: 0.04; font-size: 12px; font-weight: 900; color: var(--primary); 
+            display: flex; flex-wrap: wrap; gap: 10px; overflow: hidden;
+        }
+        
+        /* Left Green QR */
+        .permanent-qr { position: absolute; top: 15mm; left: 10mm; z-index: 5; width: 35mm; height: 35mm; }
+        .permanent-qr img { width: 100%; height: 100%; border: 1px solid #eee; padding: 2px; background: white;}
+
+        .content-layer { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; margin-top: 10mm;}
+        .cert-header { text-align: center; border-bottom: 4px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
+        .cert-header h1 { font-family: 'Roboto Slab', serif; font-size: 24px; color: var(--dark); }
+        
+        .result-title { background: var(--primary); color: white; padding: 10px; text-align: center; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; }
+        
+        .table-responsive { width: 100%; overflow-x: auto; margin-bottom: 20px; }
+        .data-table, .marks-table { width: 100%; border-collapse: collapse; min-width: 500px; border: 1px solid #ddd; }
+        .data-table td, .marks-table th, .marks-table td { padding: 12px; border: 1px solid #ddd; font-size: 15px; }
+        .f-name { font-weight: 700; background: #f9f9f9; width: 180px; }
+        
+        .cert-footer { margin-top: auto; padding-top: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .sig-area { text-align: center; }
+        .sig-line { border-top: 2px solid #444; width: 200px; margin-bottom: 5px; }
+
         .print-btn-container { text-align: center; padding: 30px; }
-        .btn-print { background: var(--dark); color: white; padding: 14px 30px; border: none; cursor: pointer; font-weight: 700; border-radius: 4px; margin: 8px; }
+        .btn-print { background: var(--dark); color: white; padding: 12px 25px; border: none; cursor: pointer; font-weight: 700; border-radius: 4px; margin: 5px; }
+
+        @media (max-width: 768px) {
+            .a4-document { padding: 10mm 5mm; }
+            .permanent-qr { position: static; margin: 0 auto 15px; width: 80px; height: 80px; }
+            .cert-header h1 { font-size: 18px; }
+            .data-table td, .marks-table td { font-size: 13px; padding: 8px; }
+        }
 
         @media print {
-            #search-interface, .print-btn-container, .brand-header { display: none !important; }
+            body { background: white; }
+            .brand-header, .print-btn-container, #search-interface { display: none !important; }
             #result-view { display: block; padding: 0; background: white; }
-            .a4-document { width: 100%; margin: 0; box-shadow: none; }
+            .a4-document { box-shadow: none; width: 215.9mm; height: 279.4mm; padding: 20mm; margin: 0; }
+            .table-responsive { overflow: visible; }
+            .background-overlay { display: none; }
         }
     </style>
 </head>
@@ -119,25 +153,17 @@
         <div class="search-container">
             <div class="search-info">
                 <h1>Verify Academic Record</h1>
-                <p>Access our secure infrastructure to instantly validate diplomas and professional certificates.</p>
+                <p>Secure online portal for instant validation of BSTE credentials and certificates.</p>
             </div>
             <div class="search-box">
-                <h2>Student Retrieval</h2>
                 <form id="verifyForm">
                     <div class="form-group">
-                        <label>Roll Number (5 Digits)</label>
-                        <input type="text" id="rollInput" 
-                               placeholder="e.g. 90605" 
-                               maxlength="5" 
-                               pattern="\d{5}" 
-                               title="Please enter exactly 5 digits" 
-                               required>
+                        <label>Roll Number</label>
+                        <input type="text" id="rollInput" placeholder="Enter 5-digit roll no" maxlength="5" required>
                     </div>
                     <div class="form-group">
                         <label>Passing Year</label>
-                        <select id="yearInput" required>
-                            <option value="">Select Year</option>
-                            </select>
+                        <select id="yearInput" required></select>
                     </div>
                     <button type="submit" class="btn-verify">Verify Record</button>
                 </form>
@@ -146,83 +172,70 @@
     </div>
 
     <div id="result-view">
-        <div class="a4-document">
-            <div class="background-overlay" id="bg-text"></div>
-            <div class="content-layer">
-                <div class="cert-header">
-                    <h1>BOARD OF SCIENCE & TECHNOLOGY EDUCATION</h1>
-                    <p>National Council for Technical and Scientific Education</p>
+        <div class="a4-document-container">
+            <div class="a4-document">
+                <div class="background-overlay" id="bg-watermark"></div>
+                <div class="permanent-qr">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://bste.com.pk/&color=1e7e34" alt="QR">
                 </div>
-                <div class="result-title">Official Verification Statement</div>
-                <div class="main-info">
+                <div class="content-layer">
+                    <div class="cert-header">
+                        <h1>BOARD OF SCIENCE & TECHNOLOGY EDUCATION</h1>
+                        <p>National Council for Technical and Scientific Education</p>
+                    </div>
+                    <div class="result-title">Official Verification Statement</div>
                     <div class="text-details">
-                        <p>Academic record for <b>Mr./Miss <span id="out-name">---</span></b> S/D/W/O <b><span id="out-father">---</span></b>, Roll No: <b><span id="out-roll">---</span></b> is <b>VERIFIED</b>.</p>
+                        <p style="margin-bottom:15px;">Academic record for <b>Mr./Miss <span id="out-name">---</span></b> S/D/W/O <b><span id="out-father">---</span></b>, Roll No: <b><span id="out-roll">---</span></b> is <b>VERIFIED</b>.</p>
+                    </div>
+                    <div class="table-responsive">
                         <table class="data-table">
                             <tr><td class="f-name">Registration No:</td><td id="out-reg">---</td></tr>
                             <tr><td class="f-name">Program of Study:</td><td id="out-course">---</td></tr>
                             <tr><td class="f-name">Passing Year:</td><td id="out-year-disp">---</td></tr>
                         </table>
                     </div>
-                </div>
-                <div class="result-title">Performance Summary</div>
-                <table class="marks-table">
-                    <thead><tr><th>Max Marks</th><th>Obtained</th><th>%</th><th>Grade</th></tr></thead>
-                    <tbody><tr><td id="out-total">---</td><td id="out-obt">---</td><td id="out-per">---</td><td id="out-grade">---</td></tr></tbody>
-                </table>
-                <div class="cert-footer">
-                    <div class="qr-box"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=VERIFIED" alt="QR"></div>
-                    <div class="sig-area"><div class="sig-line"></div><div class="sig-text">Controller of Examinations</div></div>
+                    <div class="result-title">Performance Summary</div>
+                    <div class="table-responsive">
+                        <table class="marks-table">
+                            <thead><tr><th>Max Marks</th><th>Obtained</th><th>%</th><th>Grade</th></tr></thead>
+                            <tbody><tr><td id="out-total">---</td><td id="out-obt">---</td><td id="out-per">---</td><td id="out-grade">---</td></tr></tbody>
+                        </table>
+                    </div>
+                    <div class="cert-footer">
+                        <div style="width:100px;"><img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=VERIFIED" alt="QR" style="width:100%;"></div>
+                        <div class="sig-area"><div class="sig-line"></div><div class="sig-text">Controller of Examinations</div></div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="print-btn-container">
-            <button class="btn-print" onclick="window.print()">Download Certificate</button>
-            <button class="btn-print" style="background:#666;" onclick="location.reload()">New Search</button>
+            <button class="btn-print" onclick="window.print()">Download PDF</button>
+            <button class="btn-print" style="background:#666;" onclick="location.reload()">Back</button>
         </div>
     </div>
 
-    <script>
-        // Advanced Year Logic
-        const yearSelect = document.getElementById('yearInput');
-        const currentYear = new Date().getFullYear(); // e.g. 2026
+    <script src="database.js"></script>
 
-        for (let year = 2050; year >= 1950; year--) {
-            let option = document.createElement('option');
-            option.value = year;
-            option.text = year;
-            // Cursor/Selection logic: Default selection to current year
-            if (year === currentYear) {
-                option.selected = true;
-            }
-            yearSelect.appendChild(option);
+    <script>
+        // Year Dropdown
+        const yearSelect = document.getElementById('yearInput');
+        for (let y = 2026; y >= 2020; y--) {
+            let opt = document.createElement('option');
+            opt.value = y; opt.text = y;
+            yearSelect.appendChild(opt);
         }
 
-        // Student Data (Updated to 5 Digits)
-        const studentDB = [
-            {
-                roll: "90605",
-                year: "2026",
-                name: "SHAFQAT ALI",
-                father: "SHOUKAT ALI",
-                reg: "BSTE/TEC/A261-9742",
-                course: "DAE (MECHANICAL)",
-                total: "3450",
-                obt: "2599",
-                per: "75.33%",
-                grade: "A"
-            }
-        ];
+        // Watermark Generation
+        const bg = document.getElementById('bg-watermark');
+        bg.innerText = "VERIFIED DEGREE ".repeat(1000);
 
-        // Background Watermark
-        const bgContainer = document.getElementById('bg-text');
-        bgContainer.innerText = "BSTE VERIFIED SYSTEM ".repeat(1000);
-
-        // Form Submission
+        // Form Logic
         document.getElementById('verifyForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const r = document.getElementById('rollInput').value.trim();
             const y = document.getElementById('yearInput').value;
             
+            // studentDB comes from database.js
             const student = studentDB.find(s => s.roll === r && s.year === y);
 
             if (student) {
@@ -240,7 +253,7 @@
                 document.getElementById('out-grade').innerText = student.grade;
                 window.scrollTo(0, 0);
             } else {
-                alert('Invalid Data: Ensure Roll No is 5 digits and record exists.');
+                alert('Record not found!');
             }
         });
     </script>
