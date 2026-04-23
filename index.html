@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BSTE | National Council for Technical and Scientific Education</title>
+    <title>BSTE | Board of Science & Technology Education</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary: #1e7e34;
-            --secondary: #28a745;
+            --secondary: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
             --accent: #ffc107;
             --dark: #0a1f0d;
             --light: #f1f8f3;
             --white: #ffffff;
             --gray-text: #6c757d;
+            --shadow: 0 12px 40px rgba(0,0,0,0.15);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,40 +29,60 @@
         }
 
         h1, h2, h3, h4 { font-family: 'Roboto Slab', serif; color: var(--dark); }
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        a { text-decoration: none; color: inherit; transition: 0.4s ease; }
         .container { width: 90%; max-width: 1200px; margin: auto; }
 
-        /* --- Header --- */
+        /* --- Elite Header (No Logo) --- */
         header {
-            background: var(--white);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            position: relative;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
             z-index: 1000;
+            border-bottom: 4px solid var(--primary);
         }
 
-        .header-main { padding: 10px 0; text-align: center; }
-        .header-main img { width: 200px; height: auto; image-rendering: crisp-edges; }
+        .header-main { padding: 30px 0; text-align: center; }
+        .brand-title { 
+            font-family: 'Roboto Slab', serif; 
+            font-size: 36px; 
+            font-weight: 700; 
+            color: var(--primary);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
 
         nav { background: var(--dark); padding: 0; }
         nav ul { display: flex; justify-content: center; list-style: none; }
         nav ul li a {
-            color: rgba(255,255,255,0.9);
+            color: rgba(255,255,255,0.95);
             font-weight: 600;
             cursor: pointer;
             display: block;
-            padding: 15px 25px;
-            font-size: 14px;
+            padding: 20px 35px;
+            font-size: 13px;
             text-transform: uppercase;
+            letter-spacing: 1.5px;
         }
-        nav ul li a:hover { background: var(--primary); color: white; }
+        nav ul li a:hover { background: var(--primary); color: white; letter-spacing: 2px; }
 
-        /* --- News Ticker --- */
-        .news-ticker { background: var(--accent); padding: 10px 0; font-weight: 700; font-size: 14px; color: var(--dark); }
+        /* --- Advanced News Ticker --- */
+        .news-ticker { 
+            background: var(--accent); 
+            padding: 14px 0; 
+            font-weight: 800; 
+            font-size: 14px; 
+            color: var(--dark); 
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+            box-shadow: inset 0 -2px 5px rgba(0,0,0,0.05);
+        }
 
-        /* --- Hero Section (QR Removed) --- */
+        /* --- High-Impact Hero --- */
         .hero {
             position: relative;
-            height: 60vh; /* Reduced height */
+            height: 70vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -76,50 +97,113 @@
             background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1470');
             background-size: cover;
             background-position: center;
-            filter: blur(8px) brightness(0.35);
-            transform: scale(1.1);
+            filter: brightness(0.25);
             z-index: 1;
+            transform: scale(1.02);
         }
 
-        .hero-content { position: relative; z-index: 2; padding: 0 20px; }
-        .hero h1 { color: white; font-size: clamp(24px, 5vw, 48px); margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
-        .btn-cta { background: var(--secondary); color: white; padding: 15px 35px; border-radius: 5px; font-weight: 700; text-transform: uppercase; display: inline-block; margin-top: 20px; }
+        .hero-content { position: relative; z-index: 2; padding: 0 25px; animation: slideUp 1.2s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- Stats Section --- */
-        .stats-wrap { background: var(--white); padding: 40px 0; margin-top: -40px; position: relative; z-index: 5; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); text-align: center; }
-        .stat-item h3 { font-size: 32px; color: var(--primary); }
+        .hero h1 { color: white; font-size: clamp(32px, 6vw, 56px); margin-bottom: 25px; line-height: 1.1; text-shadow: 0 5px 20px rgba(0,0,0,0.6); }
+        .hero p { font-size: 18px; max-width: 800px; margin: auto; opacity: 0.9; font-weight: 300; }
         
-        /* --- Info Cards & Reduced Image Height --- */
-        section { padding: 60px 0; }
-        .section-title { text-align: center; margin-bottom: 40px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        
-        .info-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .info-card img { 
-            width: 100%; 
-            height: 180px; /* Reduced height as requested */
-            object-fit: cover; 
-            display: block;
+        .btn-cta { 
+            background: var(--secondary); 
+            color: white; 
+            padding: 18px 50px; 
+            border-radius: 4px; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            display: inline-block; 
+            margin-top: 35px;
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+            font-size: 15px;
+            letter-spacing: 1.5px;
         }
-        .card-content { padding: 20px; }
+        .btn-cta:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(40, 167, 69, 0.5); background: #218838; }
 
-        footer { background: #081209; color: #bbb; padding: 60px 0 30px; font-size: 14px; }
-        .footer-bottom { border-top: 1px solid #1a2e1c; padding-top: 30px; text-align: center; margin-top: 50px; }
+        /* --- Metrics Section --- */
+        .stats-container { 
+            background: var(--white); 
+            padding: 60px 0; 
+            margin-top: -80px; 
+            position: relative; 
+            z-index: 5; 
+            border-radius: 8px; 
+            box-shadow: var(--shadow);
+        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); text-align: center; }
+        .stat-item h3 { font-size: 42px; color: var(--primary); margin-bottom: 8px; font-weight: 700; }
+        .stat-item p { font-weight: 700; color: var(--gray-text); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* --- Core Sections --- */
+        section { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 70px; }
+        .section-header h2 { font-size: 38px; margin-bottom: 15px; position: relative; padding-bottom: 15px; }
+        .section-header h2::after { content: ''; width: 80px; height: 5px; background: var(--accent); position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+        
+        .elite-card { 
+            background: white; 
+            border-radius: 5px; 
+            overflow: hidden; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
+            transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-top: 5px solid transparent;
+        }
+        .elite-card:hover { transform: translateY(-15px); border-top-color: var(--primary); box-shadow: var(--shadow); }
+        .elite-card img { width: 100%; height: 180px; object-fit: cover; display: block; filter: contrast(1.1); }
+        .card-body { padding: 35px; }
+        .card-body h3 { margin-bottom: 15px; font-size: 24px; color: var(--dark); }
+
+        /* --- Enterprise Footer --- */
+        footer { background: #040905; color: #777; padding: 100px 0 50px; font-size: 14px; }
+        .footer-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 60px; }
+        footer h4 { color: var(--white); margin-bottom: 35px; font-size: 16px; text-transform: uppercase; letter-spacing: 2px; }
+        footer ul li { margin-bottom: 18px; transition: 0.3s; cursor: pointer; list-style: none; display: flex; align-items: center; }
+        footer ul li:hover { color: var(--accent); padding-left: 8px; }
+
+        .legal-notice {
+            background: rgba(255,255,255,0.02);
+            padding: 30px;
+            border-radius: 5px;
+            border-left: 6px solid var(--accent);
+            margin-top: 60px;
+            font-size: 13px;
+            line-height: 1.9;
+            color: #888;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-copyright { 
+            border-top: 1px solid #122214; 
+            padding-top: 45px; 
+            text-align: center; 
+            margin-top: 70px; 
+            font-weight: 700; 
+            letter-spacing: 2px; 
+            color: #444; 
+            text-transform: uppercase;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="header-main">
-            <div class="container"><img src="IMG_20260420_025633.png" alt="BSTE Logo"></div>
+            <div class="container">
+                <div class="brand-title">BSTE DIGITAL SYSTEMS</div>
+            </div>
         </div>
         <nav>
             <div class="container">
                 <ul>
-                    <li><a href="#">Home Portal</a></li>
-                    <li><a href="#courses">Programs</a></li>
-                    <li><a href="Verification.html">Online Verification</a></li>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#courses">Academic Scope</a></li>
+                    <li><a href="Verification.html">Verification</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
@@ -127,55 +211,55 @@
     </header>
 
     <div class="news-ticker">
-        <marquee>⚠️ NOTICE: The admission portal for Session 2026-27 is now active. Complete your verification early.</marquee>
+        <marquee scrollamount="7">⚠️ SYSTEM STATUS: Technical Infrastructure & Research Unit is currently monitoring Session 2026-27 simulations. Online verification systems remain optimized for high-load performance.</marquee>
     </div>
 
     <main id="home">
         <section class="hero">
             <div class="hero-bg"></div>
             <div class="container hero-content">
-                <h1>Governing, Standardizing, & Certifying <br>Scientific Education</h1>
-                <p>Accrediting industrial and medical domains to forge the next generation of Pakistan's skilled workforce.</p>
-                <a href="Verification.html" class="btn-cta">Verify Your Record Now</a>
+                <h1>Standardizing Global <br>Technical & Scientific Education</h1>
+                <p>Advanced digital architecture providing high-fidelity accreditation for modern industrial and healthcare engineering domains.</p>
+                <a href="Verification.html" class="btn-cta">Record Verification</a>
             </div>
         </section>
 
         <div class="container">
-            <div class="stats-wrap">
+            <div class="stats-container">
                 <div class="stats-grid">
-                    <div class="stat-item"><h3>25k+</h3><p>Graduates Certified</p></div>
-                    <div class="stat-item"><h3>150+</h3><p>Affiliated Institutes</p></div>
-                    <div class="stat-item"><h3 style="color: var(--accent);">Gold</h3><p>Academic Excellence</p></div>
-                    <div class="stat-item"><h3>45+</h3><p>Accredited Programs</p></div>
+                    <div class="stat-item"><h3>25k+</h3><p>Verified Credentials</p></div>
+                    <div class="stat-item"><h3>150+</h3><p>Technical Partners</p></div>
+                    <div class="stat-item"><h3 style="color: var(--accent);">Gold</h3><p>Operational Excellence</p></div>
+                    <div class="stat-item"><h3>45+</h3><p>Advanced Programs</p></div>
                 </div>
             </div>
         </div>
 
         <section id="courses" class="container">
-            <div class="section-title">
-                <h2>Academic Departments</h2>
-                <p>Standardized curriculum compliant with global industry standards.</p>
+            <div class="section-header">
+                <h2>Academic Architecture</h2>
+                <p>Curriculum frameworks engineered to meet international industrial certification standards.</p>
             </div>
-            <div class="grid-3">
-                <div class="info-card">
+            <div class="cards-grid">
+                <div class="elite-card">
                     <img src="https://images.pexels.com/photos/190574/pexels-photo-190574.jpeg?auto=compress" alt="Mechanical">
-                    <div class="card-content">
-                        <h3>Mechanical Technology</h3>
-                        <p>Pump maintenance, utility operations, and HVAC systems certification.</p>
+                    <div class="card-body">
+                        <h3>Mechanical Systems</h3>
+                        <p>Specialized accreditation for pump engineering, utility management, and thermodynamic systems.</p>
                     </div>
                 </div>
-                <div class="info-card">
+                <div class="elite-card">
                     <img src="https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress" alt="Electrical">
-                    <div class="card-content">
-                        <h3>Electrical Systems</h3>
-                        <p>Industrial Wiring, PLC Automation, and Power Distribution protocols.</p>
+                    <div class="card-body">
+                        <h3>Electrical Engineering</h3>
+                        <p>Automation protocols, PLC logic integration, and high-voltage power distribution standards.</p>
                     </div>
                 </div>
-                <div class="info-card">
+                <div class="elite-card">
                     <img src="https://images.pexels.com/photos/3825539/pexels-photo-3825539.jpeg?auto=compress" alt="Medical">
-                    <div class="card-content">
-                        <h3>Healthcare Sciences</h3>
-                        <p>Laboratory Technology and Clinical Equipment accreditation.</p>
+                    <div class="card-body">
+                        <h3>Clinical Technology</h3>
+                        <p>Laboratory instrumentation accreditation and healthcare technical system standardization.</p>
                     </div>
                 </div>
             </div>
@@ -184,23 +268,28 @@
 
     <footer id="contact">
         <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+            <div class="footer-top">
                 <div>
-                    <h4>Governance</h4>
-                    <ul style="list-style: none;"><li>Affiliation Rules</li><li>Examination Bye-laws</li></ul>
+                    <h4>Infrastructure</h4>
+                    <ul><li>System Architecture</li><li>Data Integrity Protocols</li><li>Encryption Standards</li></ul>
                 </div>
                 <div>
-                    <h4>Students</h4>
-                    <ul style="list-style: none;"><li>Download Syllabus</li><li>Apply for Duplicate</li></ul>
+                    <h4>Development Hub</h4>
+                    <ul><li>Simulation Workflow</li><li>Verification API</li><li>Developer Resources</li></ul>
                 </div>
                 <div>
-                    <h4>Contact Us</h4>
-                    <p>Main Campus, Pakistan</p>
-                    <p>Email: info@bste.com.pk</p>
+                    <h4>Operations Center</h4>
+                    <p>Network Operations Hub</p>
+                    <p style="color: var(--accent); margin-top: 15px; font-weight: 700;">support@bste.com.pk</p>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Board of Science & Technology Education. All Rights Reserved.</p>
+
+            <div class="legal-notice">
+                <strong>Independent Project Notice:</strong> This portal serves as an independent Technical Demonstration Unit, engineered for educational research and infrastructure simulation purposes. It acts as a high-fidelity model for modern digital verification workflows and academic record management systems. All system simulations are for technical validation only.
+            </div>
+
+            <div class="footer-copyright">
+                <p>&copy; 2026 BOARD OF SCIENCE & TECHNOLOGY EDUCATION. ALL RIGHTS RESERVED.</p>
             </div>
         </div>
     </footer>
