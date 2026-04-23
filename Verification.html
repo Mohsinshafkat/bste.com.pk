@@ -90,7 +90,6 @@
         }
         .btn-verify:hover { background: var(--dark); transform: translateY(-2px); }
 
-        /* --- RESULT VIEW STYLES - FULLY RESPONSIVE A4 --- */
         #result-view { 
             display: none; 
             background: var(--a4-gray); 
@@ -117,7 +116,6 @@
             padding: 10mm 10mm 20mm 20mm; 
         }
         
-        /* -- SLANTED & REPEATED WATERMARK (FULL COVERAGE) -- */
         .background-overlay { 
             position: absolute; 
             top: -50%; 
@@ -141,7 +139,6 @@
         
         .content-layer { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; width: 100%;}
         
-        /* -- SPECIFIC QR CODE FROM FILE -- */
         .permanent-qr {
             position: absolute;
             top: 25mm; 
@@ -204,8 +201,6 @@
 
         .cert-footer { margin-top: auto; padding-top: 60px; display: flex; justify-content: flex-end; align-items: flex-end; width: 100%;}
         
-        .footer-qr-container { display: none; } 
-
         .sig-area { text-align: center; }
         .sig-line { border-top: 2px solid #444; width: 220px; margin-bottom: 8px; }
         .sig-text { font-weight: 600; font-size: 15px; }
@@ -216,18 +211,8 @@
 
         @media (max-width: 768px) {
             #result-view { padding: 20px 5px; }
-            .a4-document { 
-                padding: 5mm; 
-                min-height: auto; 
-            }
-            .permanent-qr {
-                position: static; 
-                width: 80px;
-                height: 80px;
-                margin: 0 auto 10px auto;
-                border: none;
-                padding: 0;
-            }
+            .a4-document { padding: 5mm; min-height: auto; }
+            .permanent-qr { position: static; width: 80px; height: 80px; margin: 0 auto 10px auto; border: none; padding: 0; }
             .cert-header { margin-top: 0; padding-bottom: 10px; margin-bottom: 15px;}
             .cert-header h1 { font-size: 18px; }
             .cert-header p { font-size: 12px; }
@@ -239,35 +224,14 @@
             .sig-text { font-size: 13px; }
         }
 
-        @media (max-height: 500px) and (orientation: landscape) {
-            #result-view { padding: 10px 5px; }
-            .a4-document { padding: 5mm; min-height: auto;}
-            .cert-header { display: flex; align-items: center; justify-content: space-between; border-bottom: none;}
-            .cert-header h1 { font-size: 16px; margin: 0;}
-            .cert-header p { display: none; }
-            .sig-area { margin-top: 10mm;}
-        }
-
         @media print {
             body { background: white; width: auto; height: auto; overflow: visible;}
             #search-interface, .print-btn-container, .brand-header { display: none !important; }
             #result-view { display: block !important; padding: 0 !important; background: white !important; margin: 0 !important; width: 100% !important; overflow: visible !important;}
             .a4-document-container { max-width: 100% !important; margin: 0 !important;}
-            .a4-document { 
-                width: var(--a4-width) !important; 
-                min-height: var(--a4-height) !important; 
-                margin: 0 !important; 
-                box-shadow: none !important; 
-                padding: 20mm 15mm 20mm 20mm !important; 
-                overflow: visible !important;
-            }
+            .a4-document { width: var(--a4-width) !important; min-height: var(--a4-height) !important; margin: 0 !important; box-shadow: none !important; padding: 20mm 15mm 20mm 20mm !important; overflow: visible !important; }
             .background-overlay { display: none !important;} 
-            .permanent-qr { display: none !important; } 
-            
-            .cert-footer { justify-content: space-between !important;}
-            .footer-qr-container { display: block !important; width: 30mm; height: 30mm; margin-right: 20px;}
-            .footer-qr-container img { width: 100%; height: 100%; display: block;}
-
+            .permanent-qr { display: block !important; position: absolute !important; left: 10mm !important; top: 15mm !important; width: 35mm !important; height: 35mm !important;}
             .cert-header { margin-top: 0 !important;}
             .marks-table-container, .data-table-container { overflow-x: visible !important;}
             .data-table, .marks-table { min-width: 100% !important; }
@@ -291,18 +255,13 @@
                 <form id="verifyForm">
                     <div class="form-group">
                         <label>Roll Number (5 Digits)</label>
-                        <input type="text" id="rollInput" 
-                               placeholder="e.g. 90605" 
-                               maxlength="5" 
-                               pattern="\d{5}" 
-                               title="Please enter exactly 5 digits" 
-                               required>
+                        <input type="text" id="rollInput" placeholder="e.g. 90605" maxlength="5" pattern="\d{5}" required>
                     </div>
                     <div class="form-group">
                         <label>Passing Year</label>
                         <select id="yearInput" required>
                             <option value="">Select Year</option>
-                            </select>
+                        </select>
                     </div>
                     <button type="submit" class="btn-verify">Verify Record</button>
                 </form>
@@ -314,19 +273,15 @@
         <div class="a4-document-container">
             <div class="a4-document">
                 <div class="background-overlay" id="bg-watermark"></div>
-                
                 <div class="permanent-qr">
                     <img src="qr.png" alt="BSTE VERIFIED">
                 </div>
-                
                 <div class="content-layer">
                     <div class="cert-header">
                         <h1>BOARD OF SCIENCE & TECHNOLOGY EDUCATION</h1>
                         <p>National Council for Technical and Scientific Education</p>
                     </div>
-                    
                     <div class="result-title">Official Verification Statement</div>
-                    
                     <div class="main-info">
                         <div class="text-details">
                             <p>Academic record for <b>Mr./Miss <span id="out-name">---</span></b> S/D/W/O <b><span id="out-father">---</span></b>, Roll No: <b><span id="out-roll">---</span></b> is <b>VERIFIED</b>.</p>
@@ -339,9 +294,7 @@
                             </table>
                         </div>
                     </div>
-                    
                     <div class="result-title">Performance Summary</div>
-                    
                     <div class="performance-summary">
                         <div class="marks-table-container">
                             <table class="marks-table">
@@ -350,9 +303,7 @@
                             </table>
                         </div>
                     </div>
-                    
                     <div class="cert-footer">
-                        <div class="footer-qr-container"><img src="qr.png" alt="QR"></div>
                         <div class="sig-area"><div class="sig-line"></div><div class="sig-text">Controller of Examinations</div></div>
                     </div>
                 </div>
@@ -365,53 +316,51 @@
     </div>
 
     <script>
-        // Set up the year selector
-        const yearSelect = document.getElementById('yearInput');
-        const currentYear = new Date().getFullYear(); 
+        // Data Entries
+        const studentDB = [
+            { roll: "90605", year: "2026", name: "SHAFQAT ALI", father: "SHOUKAT ALI", reg: "BSTE/TEC/A261-9742", course: "DAE (MECHANICAL)", total: "3450", obt: "2599", per: "75.33%", grade: "A" },
+            { roll: "90606", year: "2026", name: "MOHSIN KHAN", father: "AHMED KHAN", reg: "BSTE/TEC/A261-9800", course: "DAE (ELECTRICAL)", total: "3450", obt: "2800", per: "81.15%", grade: "A-1" },
+            { roll: "90607", year: "2025", name: "USMAN BIN ZIA", father: "ZIA-UL-HAQ", reg: "BSTE/ENG/B250-1234", course: "DAE (CIVIL)", total: "3400", obt: "2450", per: "72.05%", grade: "B" },
+            { roll: "90608", year: "2024", name: "ABDUL REHMAN", father: "GHULAM NABI", reg: "BSTE/TEC/C240-5566", course: "DAE (PETROLEUM)", total: "3500", obt: "2900", per: "82.85%", grade: "A-1" },
+            { roll: "90609", year: "2026", name: "FAISAL ABBAS", father: "MAZHAR HUSSAIN", reg: "BSTE/TEC/D260-8877", course: "DAE (INSTRUMENTATION)", total: "3450", obt: "2300", per: "66.66%", grade: "B" },
+            { roll: "90610", year: "2025", name: "MUHAMMAD BILAL", father: "TARIQ AZIZ", reg: "BSTE/TEC/E250-9900", course: "DAE (AUTO & DIESEL)", total: "3450", obt: "2750", per: "79.71%", grade: "A" },
+            { roll: "90611", year: "2026", name: "SAAD BIN KHALID", father: "KHALID MAHMOOD", reg: "BSTE/TEC/F260-2233", course: "DAE (CHEMICAL)", total: "3450", obt: "3100", per: "89.85%", grade: "A-1" },
+            { roll: "90612", year: "2024", name: "HAMZA PERVAIZ", father: "PERVAIZ ALAM", reg: "BSTE/TEC/G240-4455", course: "DAE (TEXTILE)", total: "3400", obt: "2200", per: "64.70%", grade: "C" },
+            { roll: "90613", year: "2026", name: "ZOHAIB HASAN", father: "ASGHAR ALI", reg: "BSTE/TEC/H260-6677", course: "DAE (IT)", total: "3450", obt: "2950", per: "85.50%", grade: "A-1" },
+            { roll: "90614", year: "2025", name: "ASAD KHAN", father: "IJAZ KHAN", reg: "BSTE/TEC/I250-1122", course: "DAE (MINING)", total: "3450", obt: "2400", per: "69.56%", grade: "B" },
+            { roll: "90615", year: "2026", name: "REHAN AHMED", father: "SALEEM AHMED", reg: "BSTE/TEC/J260-3344", course: "DAE (ELECTRONICS)", total: "3450", obt: "2780", per: "80.57%", grade: "A" },
+            { roll: "90616", year: "2024", name: "BILAL HASSAN", father: "MANZOOR ELAHI", reg: "BSTE/TEC/K240-5588", course: "DAE (TELECOM)", total: "3400", obt: "2550", per: "75.00%", grade: "A" },
+            { roll: "90617", year: "2026", name: "WAQAS MEHMOOD", father: "MEHMOOD UL HASAN", reg: "BSTE/TEC/L260-7788", course: "DAE (POWER)", total: "3450", obt: "3050", per: "88.40%", grade: "A-1" },
+            { roll: "90618", year: "2025", name: "UZAIR SHAHID", father: "SHAHID ANWAR", reg: "BSTE/TEC/M250-9911", course: "DAE (RAC)", total: "3450", obt: "2600", per: "75.36%", grade: "A" },
+            { roll: "90619", year: "2026", name: "JUNAID IQBAL", father: "IQBAL AHMED", reg: "BSTE/TEC/N260-2255", course: "DAE (FOUNDRY)", total: "3450", obt: "2480", per: "71.88%", grade: "B" },
+            { roll: "90620", year: "2024", name: "TALHA BIN WAHEED", father: "ABDUL WAHEED", reg: "BSTE/TEC/O240-4499", course: "DAE (SUGAR)", total: "3400", obt: "2350", per: "69.11%", grade: "B" },
+            { roll: "90621", year: "2026", name: "SHAHZAIB ALI", father: "LIYAQAT ALI", reg: "BSTE/TEC/P260-6611", course: "DAE (ARCHITECT)", total: "3450", obt: "2820", per: "81.73%", grade: "A-1" },
+            { roll: "90622", year: "2025", name: "ARSLAN ZAHOOR", father: "ZAHOOR AHMED", reg: "BSTE/TEC/Q250-8833", course: "DAE (SAFETY)", total: "3450", obt: "2680", per: "77.68%", grade: "A" },
+            { roll: "90623", year: "2026", name: "NOMAN JAVED", father: "JAVED IQBAL", reg: "BSTE/TEC/R260-1144", course: "DAE (WELDING)", total: "3450", obt: "2510", per: "72.75%", grade: "B" },
+            { roll: "90624", year: "2024", name: "RAHEEL SHARIF", father: "MUHAMMAD SHARIF", reg: "BSTE/TEC/S240-3377", course: "DAE (GLASS)", total: "3400", obt: "2950", per: "86.76%", grade: "A-1" }
+        ];
 
-        for (let year = currentYear; year >= currentYear - 30; year--) {
+        // Year Dropdown
+        const yearSelect = document.getElementById('yearInput');
+        for (let year = 2026; year >= 2020; year--) {
             let option = document.createElement('option');
-            option.value = year;
-            option.text = year;
-            if (year === currentYear) {
-                option.selected = true;
-            }
+            option.value = year; option.text = year;
             yearSelect.appendChild(option);
         }
 
-        // Expanded student data
-        const studentDB = [
-            {
-                roll: "90605",
-                year: "2026",
-                name: "SHAFQAT ALI",
-                father: "SHOUKAT ALI",
-                reg: "BSTE/TEC/A261-9742",
-                course: "DAE (MECHANICAL)",
-                total: "3450",
-                obt: "2599",
-                per: "75.33%",
-                grade: "A"
-            }
-        ];
-
-        // Create the repeated watermark text
+        // Watermark Generation
         const bgContainer = document.getElementById('bg-watermark');
-        const repeatedText = "VERIFIED DEGREE ".repeat(20);
-        const rows = 150; 
-
-        for(let i = 0; i < rows; i++) {
+        for(let i = 0; i < 150; i++) {
             let span = document.createElement('span');
-            span.innerText = repeatedText;
+            span.innerText = "VERIFIED DEGREE ".repeat(20);
             bgContainer.appendChild(span);
         }
 
-        // Form submission logic
+        // Search Form Logic
         document.getElementById('verifyForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const r = document.getElementById('rollInput').value.trim();
             const y = document.getElementById('yearInput').value;
-            
             const student = studentDB.find(s => s.roll === r && s.year === y);
 
             if (student) {
