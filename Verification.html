@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BSTE | Official Verification Portal</title>
+    <title>BSTE | Secure Verification Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -11,22 +11,36 @@
             --primary: #1e7e34;
             --dark: #0a1f0d;
             --white: #ffffff;
+            --accent: #ffc107;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Source Sans Pro', sans-serif; background: #f4f7f4; overflow-x: hidden; }
 
         /* --- SEARCH INTERFACE --- */
-        #search-interface { display: block; padding: 40px 15px; }
-        header { background: white; padding: 15px 0; text-align: center; border-bottom: 1px solid #ddd; width: 100%; }
-        header img { width: 150px; max-width: 80%; } 
+        #search-interface { display: block; padding: 60px 15px; }
+        
+        .brand-header { 
+            text-align: center; 
+            padding: 30px 0; 
+            background: white; 
+            border-bottom: 4px solid var(--primary);
+            margin-bottom: 40px;
+        }
+        .brand-name { 
+            font-family: 'Roboto Slab', serif; 
+            font-size: 28px; 
+            color: var(--primary); 
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+        }
         
         .search-container { 
-            max-width: 1100px; 
-            margin: 20px auto; 
+            max-width: 900px; 
+            margin: auto; 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 30px; 
+            gap: 40px; 
             align-items: center; 
         }
 
@@ -35,23 +49,44 @@
         }
 
         .search-info h1 { font-family: 'Roboto Slab', serif; color: var(--dark); font-size: 32px; margin-bottom: 20px; }
-        .search-box { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 6px solid var(--primary); }
+        .search-box { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 8px solid var(--primary); }
         .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; }
-        .form-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
-        .btn-verify { width: 100%; background: var(--primary); color: white; padding: 15px; border: none; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 4px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--dark); }
+        .form-group input, .form-group select { width: 100%; padding: 14px; border: 2px solid #eee; border-radius: 4px; font-size: 16px; outline: none; }
+        .form-group input:focus { border-color: var(--primary); }
+        .btn-verify { width: 100%; background: var(--primary); color: white; padding: 16px; border: none; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: 0.3s; }
+        .btn-verify:hover { background: var(--dark); transform: translateY(-2px); }
 
         /* --- RESULT VIEW --- */
         #result-view { display: none; background: #525659; padding: 40px 0; min-height: 100vh; }
         
         .a4-document {
-            width: 215.9mm; /* Letter Width */
-            min-height: 279.4mm; /* Letter Height */
+            width: 215.9mm; 
+            min-height: 279.4mm; 
             margin: auto; background: white;
             position: relative; overflow: hidden; display: flex; flex-direction: column;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            -webkit-print-color-adjust: exact !important; /* Force colors in print */
+            box-shadow: 0 0 50px rgba(0,0,0,0.6);
+            -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
+        }
+
+        /* Full Page Text Watermark Overlay */
+        .background-overlay {
+            position: absolute; 
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            pointer-events: none; 
+            z-index: 1; 
+            transform: rotate(-30deg);
+            display: flex; 
+            flex-wrap: wrap; 
+            opacity: 0.06;
+            font-size: 11px; 
+            font-weight: 900; 
+            line-height: 1.5; 
+            color: var(--primary);
+            overflow: hidden;
+            word-break: break-all;
+            text-align: justify;
         }
 
         @media (max-width: 215.9mm) {
@@ -60,61 +95,47 @@
             .content-layer { padding: 10mm 5mm !important; }
         }
 
-        .background-overlay {
-            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            pointer-events: none; z-index: 1; transform: rotate(-30deg);
-            display: flex; flex-wrap: wrap; opacity: 0.05;
-            font-size: 10px; font-weight: 900; line-height: 1.2; color: var(--primary);
-            overflow: hidden;
-        }
+        .content-layer { position: relative; z-index: 3; padding: 20mm; flex: 1; display: flex; flex-direction: column; background: transparent; }
 
-        .center-logo {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 300px; opacity: 0.08; z-index: 2; pointer-events: none;
-        }
+        .cert-header { text-align: center; border-bottom: 4px solid var(--primary); padding-bottom: 20px; margin-bottom: 30px; }
+        .cert-header h1 { font-family: 'Roboto Slab', serif; font-size: 26px; color: var(--dark); letter-spacing: 1px; }
+        .cert-header p { font-weight: 600; color: var(--primary); margin-top: 5px; text-transform: uppercase; font-size: 14px; }
 
-        .content-layer { position: relative; z-index: 3; padding: 15mm; flex: 1; display: flex; flex-direction: column; }
-
-        .cert-header { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
-        .cert-header img { width: 85px; margin-bottom: 8px; }
-        .cert-header h1 { font-family: 'Roboto Slab', serif; font-size: 22px; color: var(--dark); }
-
-        /* --- GREEN BACKGROUND SHAPES FIXED FOR PRINT --- */
         .result-title { 
             background-color: var(--primary) !important; 
             color: var(--white) !important; 
-            padding: 10px; text-align: center; font-weight: 700; 
-            margin-bottom: 20px; text-transform: uppercase; font-size: 14px; border-radius: 4px;
+            padding: 12px; text-align: center; font-weight: 700; 
+            margin-bottom: 25px; text-transform: uppercase; font-size: 15px; border-radius: 2px;
             -webkit-print-color-adjust: exact;
         }
 
-        .main-info { display: flex; gap: 30px; margin-bottom: 25px; }
-        .text-details { flex: 1; line-height: 1.7; font-size: 15px; text-align: justify; }
-        .photo-box { width: 135px; height: 165px; border: 2px solid var(--primary); background: white; padding: 3px; flex-shrink: 0; }
-        .photo-box img { width: 100%; height: 100%; object-fit: cover; }
+        .main-info { margin-bottom: 30px; }
+        .text-details { line-height: 1.8; font-size: 16px; text-align: justify; color: #333; }
+        .text-details b { color: var(--dark); }
 
-        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .data-table td { padding: 8px; border: 1px solid #ddd; font-size: 14px; }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: rgba(255, 255, 255, 0.8); }
+        .data-table td { padding: 12px; border: 1px solid #ddd; font-size: 15px; }
         .f-name { 
             font-weight: 700; 
-            background-color: rgba(230, 245, 230, 0.9) !important; 
-            width: 150px; 
+            background-color: #f9f9f9 !important; 
+            width: 200px; 
+            color: var(--dark);
             -webkit-print-color-adjust: exact;
         }
 
-        .marks-table-container { width: 100%; overflow-x: auto; }
-        .marks-table { width: 100%; border-collapse: collapse; margin-top: 25px; text-align: center; min-width: 450px; }
-        .marks-table th, .marks-table td { border: 1px solid #ccc; padding: 10px; font-size: 14px; }
+        .marks-table { width: 100%; border-collapse: collapse; margin-top: 30px; text-align: center; background: rgba(255, 255, 255, 0.8); }
+        .marks-table th, .marks-table td { border: 1px solid #ddd; padding: 14px; font-size: 15px; }
         .marks-table th { 
-            background-color: var(--primary) !important; 
-            color: var(--white) !important; 
+            background-color: #f0f0f0 !important; 
+            color: var(--dark) !important; 
+            font-weight: 700;
+            text-transform: uppercase;
             -webkit-print-color-adjust: exact;
         }
 
-        /* --- FOOTER: QR LEFT, SIG RIGHT --- */
         .cert-footer { 
             margin-top: auto; 
-            padding-top: 40px; 
+            padding-top: 60px; 
             display: flex; 
             justify-content: space-between; 
             align-items: flex-end; 
@@ -122,55 +143,61 @@
         }
         
         .qr-box { text-align: left; }
-        .qr-box img { width: 100px; }
-        .qr-text { font-size: 10px; font-weight: 800; margin-top: 5px; text-align: center; display: block; }
+        .qr-box img { width: 110px; filter: grayscale(1); background: white; padding: 5px; border: 1px solid #eee; }
+        .qr-text { font-size: 10px; font-weight: 800; margin-top: 8px; text-align: center; display: block; color: #555; }
 
-        .sig-area { text-align: center; width: 200px; }
-        .sig-line { border-top: 2px solid #333; margin-bottom: 5px; }
-        .sig-text { font-weight: 800; color: var(--dark); font-size: 12px; text-transform: uppercase; }
+        .sig-area { text-align: center; width: 220px; }
+        .sig-line { border-top: 2px solid #444; margin-bottom: 8px; }
+        .sig-text { font-weight: 800; color: var(--dark); font-size: 13px; text-transform: uppercase; }
 
         .system-note { 
-            width: 100%; text-align: center; padding-top: 20px; 
-            font-size: 11px; color: #666; font-style: italic; 
+            width: 100%; text-align: center; padding-top: 30px; 
+            font-size: 12px; color: #888; font-style: italic; 
         }
 
-        .print-btn-container { text-align: center; padding: 20px; }
-        .btn-print { background: var(--dark); color: white; padding: 12px 25px; border: none; cursor: pointer; font-weight: 700; border-radius: 4px; margin: 5px; }
+        .print-btn-container { text-align: center; padding: 30px; }
+        .btn-print { background: var(--dark); color: white; padding: 14px 30px; border: none; cursor: pointer; font-weight: 700; border-radius: 4px; margin: 8px; }
 
         @media print {
             body { background: white; }
-            #search-interface, .print-btn-container { display: none !important; }
+            #search-interface, .print-btn-container, .brand-header { display: none !important; }
             #result-view { display: block; padding: 0; background: white; }
             .a4-document { 
                 width: 100%; margin: 0; box-shadow: none; 
                 -webkit-print-color-adjust: exact !important; 
                 print-color-adjust: exact !important;
             }
+            .background-overlay { opacity: 0.08; } 
             @page { size: letter portrait; margin: 0; }
         }
     </style>
 </head>
 <body>
 
+    <div class="brand-header">
+        <div class="brand-name">BSTE Digital Verification System</div>
+    </div>
+
     <div id="search-interface">
-        <header><img src="IMG_20260420_025633.png" alt="Logo"></header>
         <div class="search-container">
             <div class="search-info">
-                <h1>Online Verification Portal</h1>
-                <p>Verify your academic documents and transcripts online instantly through our secure national database.</p>
+                <h1>Verify Academic Record</h1>
+                <p>Access our secure infrastructure to instantly validate diplomas and professional certificates using the national technical database.</p>
             </div>
             <div class="search-box">
-                <h2>Student Search</h2>
+                <h2>Student Retrieval</h2>
                 <form id="verifyForm">
                     <div class="form-group">
                         <label>Roll Number</label>
-                        <input type="text" id="rollInput" placeholder="Enter Roll Number" required>
+                        <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g. 9006051)" required>
                     </div>
                     <div class="form-group">
-                        <label>CNIC Number</label>
-                        <input type="text" id="cnicInput" placeholder="42101-XXXXXXX-X" required>
+                        <label>Passing Year</label>
+                        <select id="yearInput" required>
+                            <option value="">Select Year</option>
+                            </select>
                     </div>
-                    <button type="submit" class="btn-verify">Search Record</button>
+                    <button type="submit" class="btn-verify">Verify Record</button>
                 </form>
             </div>
         </div>
@@ -179,37 +206,33 @@
     <div id="result-view">
         <div class="a4-document">
             <div class="background-overlay" id="bg-text"></div>
-            <img src="IMG_20260420_025633.png" class="center-logo">
 
             <div class="content-layer">
                 <div class="cert-header">
-                    <img src="IMG_20260420_025633.png">
                     <h1>BOARD OF SCIENCE & TECHNOLOGY EDUCATION</h1>
                     <p>National Council for Technical and Scientific Education</p>
                 </div>
 
-                <div class="result-title">Approved Result Details</div>
+                <div class="result-title">Official Verification Statement</div>
 
                 <div class="main-info">
                     <div class="text-details">
-                        <p>It is to verify that the Diploma/Certificate issued in favor of <b>Mr./Miss <span id="out-name">---</span></b> S/D/W/O <b><span id="out-father">---</span></b>, with Roll No: <b><span id="out-roll">---</span></b> in the trade of <b><span id="out-course">---</span></b> is found genuine according to our records.</p>
+                        <p>This document confirms that the academic record for <b>Mr./Miss <span id="out-name">---</span></b> S/D/W/O <b><span id="out-father">---</span></b>, bearing Roll No: <b><span id="out-roll">---</span></b> has been audited and found <b>VERIFIED</b> within the BSTE central database.</p>
                         
                         <table class="data-table">
                             <tr><td class="f-name">Registration No:</td><td id="out-reg">---</td></tr>
-                            <tr><td class="f-name">CNIC Number:</td><td id="out-cnic">---</td></tr>
-                            <tr><td class="f-name">Status:</td><td style="color: green; font-weight: bold;">VERIFIED</td></tr>
+                            <tr><td class="f-name">Program of Study:</td><td id="out-course">---</td></tr>
+                            <tr><td class="f-name">Passing Year:</td><td id="out-year-disp">---</td></tr>
+                            <tr><td class="f-name">Verification Status:</td><td style="color: #1e7e34; font-weight: bold;">VERIFIED</td></tr>
                         </table>
-                    </div>
-                    <div class="photo-box">
-                        <img id="out-img" src="">
                     </div>
                 </div>
 
-                <div class="result-title">Marks Card Details</div>
+                <div class="result-title">Performance Summary</div>
                 <div class="marks-table-container">
                     <table class="marks-table">
                         <thead>
-                            <tr><th>Total Marks</th><th>Obtained</th><th>Percentage</th><th>Grade</th></tr>
+                            <tr><th>Maximum Marks</th><th>Marks Obtained</th><th>Percentage</th><th>Final Grade</th></tr>
                         </thead>
                         <tbody>
                             <tr><td id="out-total">---</td><td id="out-obt">---</td><td id="out-per">---</td><td id="out-grade">---</td></tr>
@@ -219,7 +242,7 @@
 
                 <div class="cert-footer">
                     <div class="qr-box">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.bste.com.pk" alt="QR">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.bste.com.pk/verified" alt="QR">
                         <span class="qr-text">SCAN TO VERIFY</span>
                     </div>
                     
@@ -230,35 +253,31 @@
                 </div>
                 
                 <div class="system-note">
-                    This is a system-generated document and does not require a physical signature.
+                    Note: This is a secure digital record. Physical signatures are not required for system-verified electronic documents.
                 </div>
             </div>
         </div>
         
         <div class="print-btn-container">
-            <button class="btn-print" onclick="window.print()">Download / Print PDF</button>
-            <button class="btn-print" style="background:#666;" onclick="location.reload()">New Search</button>
+            <button class="btn-print" onclick="window.print()">Download Certificate (PDF)</button>
+            <button class="btn-print" style="background:#666;" onclick="location.reload()">New Verification</button>
         </div>
     </div>
 
     <script>
+        // Generate Passing Years from 1950 to 2050
+        const yearSelect = document.getElementById('yearInput');
+        for (let year = 2050; year >= 1950; year--) {
+            let option = document.createElement('option');
+            option.value = year;
+            option.text = year;
+            yearSelect.appendChild(option);
+        }
+
         const studentDB = [
             {
-                roll: "9006050",
-                cnic: "42101-1234567-1",
-                name: "MALIK AMAN",
-                father: "ZAMEER GUL",
-                reg: "BSTE/TEC/A261-9741",
-                course: "DIPLOMA OF ASSOCIATE ENGINEERING (CIVIL)",
-                total: "3450",
-                obt: "2599",
-                per: "75.33%",
-                grade: "A",
-                image: "Students/9006050.jpeg"
-            },
-            {
                 roll: "9006051",
-                cnic: "45505-0388415-5",
+                year: "2026",
                 name: "SHAFQAT ALI",
                 father: "SHOUKAT ALI",
                 reg: "BSTE/TEC/A261-9742",
@@ -266,40 +285,53 @@
                 total: "3450",
                 obt: "2599",
                 per: "75.33%",
-                grade: "A",
-                image: "Students/9006051.jpeg"
+                grade: "A"
+            },
+            {
+                roll: "9006050",
+                year: "2025",
+                name: "MALIK AMAN",
+                father: "ZAMEER GUL",
+                reg: "BSTE/TEC/A261-9741",
+                course: "DIPLOMA OF ASSOCIATE ENGINEERING (CIVIL)",
+                total: "3450",
+                obt: "2480",
+                per: "71.88%",
+                grade: "B"
             }
         ];
 
         const bgContainer = document.getElementById('bg-text');
-        const rawText = "BOARDOFSCIENCEANDTECHNOLOGYEDUCATION ";
+        const rawText = "BSTE VERIFIED SYSTEM ";
         let bgContent = "";
-        for (let i = 0; i < 1000; i++) { bgContent += rawText; }
+        for (let i = 0; i < 2000; i++) { bgContent += rawText; }
         bgContainer.innerText = bgContent;
 
         document.getElementById('verifyForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const r = document.getElementById('rollInput').value.trim();
-            const c = document.getElementById('cnicInput').value.trim();
-            const student = studentDB.find(s => s.roll === r && s.cnic === c);
+            const y = document.getElementById('yearInput').value;
+            
+            const student = studentDB.find(s => s.roll === r && s.year === y);
 
             if (student) {
                 document.getElementById('search-interface').style.display = 'none';
                 document.getElementById('result-view').style.display = 'block';
+                
                 document.getElementById('out-name').innerText = student.name;
                 document.getElementById('out-father').innerText = student.father;
                 document.getElementById('out-roll').innerText = student.roll;
-                document.getElementById('out-cnic').innerText = student.cnic;
                 document.getElementById('out-reg').innerText = student.reg;
                 document.getElementById('out-course').innerText = student.course;
+                document.getElementById('out-year-disp').innerText = student.year;
                 document.getElementById('out-total').innerText = student.total;
                 document.getElementById('out-obt').innerText = student.obt;
                 document.getElementById('out-per').innerText = student.per;
                 document.getElementById('out-grade').innerText = student.grade;
-                document.getElementById('out-img').src = student.image;
+                
                 window.scrollTo(0, 0);
             } else {
-                alert('No record found!');
+                alert('No student record found for this Roll Number and Passing Year.');
             }
         });
     </script>
